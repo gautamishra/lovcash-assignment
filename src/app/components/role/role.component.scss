@@ -1,0 +1,18 @@
+.open.dropdown .dropdown-menu { display: block; transform: none; }
+
+.ui-select-choices.dropdown-menu {
+    display: block;
+    }
+.ui-select-match-item {
+    background: #343a403d;
+    border: none;
+    color: black;
+    height: 30px;
+    line-height: 1;
+}
+  
+.close{
+    margin-left: 5px;
+    padding: 0;
+    line-height: 0.5 !important;
+}

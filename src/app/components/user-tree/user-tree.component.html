@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="tree-container">
+    <tree-root [nodes]="nodes" [options]="options" (activate)="selectNode($event.node.data)" (deactivate)="selectNode($event.node.data)" #treeModal>
+      <ng-template #treeNodeFullTemplate
+              let-node
+              let-index="index"
+              let-templates="templates">
+      <div
+        [class]="node.getClass()"
+        [class.tree-node]="true"
+        [class.tree-node-expanded]="node.isExpanded && node.hasChildren"
+        [class.tree-node-collapsed]="node.isCollapsed && node.hasChildren"
+        [class.tree-node-leaf]="node.isLeaf"
+        [class.tree-node-active]="node.isActive"
+        [class.tree-node-focused]="node.isFocused">
+        <div class="node-wrapper" [style.padding-left]="node.getNodePadding()">
+          <tree-node-expander [node]="node"></tree-node-expander>
+          <div class="node-content-wrapper"
+          [class.node-content-wrapper-active]="node.isActive"
+          [class.node-content-wrapper-focused]="node.isFocused"
+          (click)="node.mouseAction('click', $event)"
+          (dblclick)="node.mouseAction('dblClick', $event)"
+          (contextmenu)="node.mouseAction('contextMenu', $event)">
+
+          <!-- <tree-node-content [node]="node" [index]="index"></tree-node-content> -->  
+        <span>{{node.data.name}}</span>
+        &nbsp;
+          <label class="checkbox-container">
+            <input type="checkbox">
+            <span class="checkmark" (click)="addToDeletedQueue($event, node.data.id)"></span>
+          </label>
+        </div>
+          
+        </div>
+
+        <tree-node-children [node]="node" [templates]="templates">
+        </tree-node-children>
+      </div>
+      </ng-template>
+    </tree-root>
+
+    <div class="actions mt-4">
+      <button class="btn btn-primary" (click)="showAddNodeDiv = !showAddNodeDiv" [disabled]="!selectedNode">
+        <i class="fa fa-plus-circle"></i>Add Element
+      </button>
+      <button class="btn btn-danger ml-1" (click)="deleteNode()" [disabled]="!nodeToBeDeleted"><i class="fa fa-trash"></i>Delete</button>
+    </div>
+
+    <div class="add-element mt-4" *ngIf="!!showAddNodeDiv && !!selectedNode">
+      <div class="mb-2">
+        Enter Name Of the Node:
+      </div>
+      <input class="form-control" type="text" [(ngModel)]="newNodeName">
+
+      <div class="col-12 mt-2">
+        <button class="btn btn-primary  pull-right" (click)="addElement();" [disabled]="!newNodeName">Save</button>
+      </div>
+    </div>
+</div>
+
+</div>
+
+
+
+

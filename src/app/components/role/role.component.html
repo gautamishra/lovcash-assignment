@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="actions-container mt-4">
+    <button class="btn btn-primary" (click)="showPermission = !showPermission; showRole = false">Create Permission</button>
+    &nbsp;&nbsp;&nbsp;
+    <button class="btn btn-primary" (click)="showRole = !showRole; showPermission = false ; formatData()">Create Roles</button>
+  </div>
+
+  <div class="permission-container mt-4" *ngIf="!!showPermission && !showRole">
+    <div class="mb-2">
+      <ng-container *ngIf="allPermissions.length > 0">
+        <div class="font-weight-bold">
+          Availavble Permissions
+        </div>
+        <div class="col-4">
+          <ul>
+            <li  *ngFor="let perm of allPermissions">{{perm.permissionName}}</li>
+          </ul>
+
+        </div>
+    </ng-container>
+      <label class="font-weight-bold" for="permission">
+        Enter Name Of the Permission:
+      </label>
+      <input class="form-control col-4" id="permission" type="text" [(ngModel)]="permissionName">
+    </div>
+
+    <div class="engagement">
+      <label class="font-weight-bold"> EnagageMent</label>
+      <ng-container *ngFor="let permission of permissionToSelect">
+        <div class="permissions">
+          <div class="checkbox-container" (click)="permission.selected = !permission.selected">
+            {{permission.name}}
+            <input type="checkbox" [checked]="permission.selected">
+            <span class="checkmark"></span>
+          </div>
+        </div>
+      </ng-container>
+      <div class="col-1 offset-3">
+        <button class="btn btn-primary" (click)="addPermission()" [disabled]="!permissionName">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-container class="role-container mt-4" *ngIf="!!showRole && !showPermission">
+
+      <ng-container *ngIf="availableRoles.length > 0">
+        <div class="row mt-4">
+          <div class="font-weight-bold">
+            Availavble Roles
+          </div>
+          <div class="col-4">
+            <ul>
+              <li  *ngFor="let role of availableRoles">{{role.roleName}}</li>
+            </ul>
+  
+          </div>
+        </div>
+      </ng-container>
+
+    <div class="row mt-4">
+       <div class="col-3">
+         <div class="col-1">
+        <label class= "font-weight-bold">Role</label>
+      </div>
+        <div class="form-group col-2">
+          <input clss="form-control" type="text" [(ngModel)]="roleName"/>
+        </div>
+      </div>
+
+      <div class="col-3 col-sm-6 ">
+          <label class="col-1 col-sm-2 font-weight-bold">Scope</label>
+          <div class="form-group col-2 col-sm-3">
+            <input clss="form-control" type="text" [(ngModel)]="scope"/>
+          </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="font-weight-bold col-2" for="permission">
+            SelectPermisions:
+        </div>
+        <div class="col-4">
+            <ng-select [multiple]="true"
+              name="select-permission-box"
+              id="select-permission-box"
+              [items]="permissionsData"
+              (data)="getSelectedPermission($event)"
+              [active]="selectedPermission"
+              placeholder="Select Permission">
+          </ng-select>
+        </div>
+
+            <button class="btn btn-primary" (click)="selectall()"> Select All</button>
+            &nbsp;<button class="btn btn-info" (click)="selectedPermission = []"> deselect All</button>
+           
+       <div class="col-12 mt-4">
+         <button class="btn btn-danger" (click)="createRole()" [disabled]="!roleName && !scope && selectedPermission.length === 0">Create Role</button>
+       </div>
+    </div>
+  </ng-container>
+</div>
